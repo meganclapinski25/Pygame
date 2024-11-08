@@ -56,9 +56,36 @@ class Strawberry(GameObject):
         self.x = randint(50, 400)
         self.y = -64
 
+class Player(GameObject):
+  def __init__(self):
+    super(Player, self).__init__(0, 0, 'player.png')
+    self.dx = 0
+    self.dy = 0
+    self.reset()
+
+  def left(self):
+    self.dx -= 100
+
+  def right(self):
+    self.dx += 100
+
+  def up(self):
+    self.dy -= 100
+
+  def down(self):
+    self.dy += 100
+
+  def move(self):
+    self.x -= (self.x - self.dx) * 0.25
+    self.y -= (self.y - self.dy) * 0.25
+
+  def reset(self):
+    self.x = 250 - 32
+    self.y = 250 - 32
 
 apple = Apple() 
 strawberry = Strawberry()
+player = Player()
 # apple2 = GameObject(100, 100, 'apple.png') 
 # apple3 = GameObject(250, 250, 'apple.png') 
 # apple4 = GameObject(400, 100, 'apple.png') 
@@ -71,21 +98,34 @@ strawberry = Strawberry()
 
 # game loop 
 running = True 
-while running: 
-        # Looking at the events 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                
-        # Clear the screen 
-        screen.fill((255,255,255))
+while running:
+  # Looks at events
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      running = False
+    elif event.type == pygame.KEYDOWN:
+      if event.key == pygame.K_ESCAPE:
+        running = False
+      elif event.key == pygame.K_LEFT:
+        player.left()
+      elif event.key == pygame.K_RIGHT:
+        player.right()
+      elif event.key == pygame.K_UP:
+        player.up()
+      elif event.key == pygame.K_DOWN:
+        player.down()
+  
+        # Clear screen
+    screen.fill((255, 255, 255))
         # ADD!
-        apple.x += 1.5
-        apple.move()
-        apple.render(screen)
-        strawberry.x +=1.5
-        strawberry.move()
-        strawberry.render(screen)
+    apple.x += 1.5
+    apple.move()
+    apple.render(screen)
+        # strawberry.x +=1.5
+        # strawberry.move()
+        # strawberry.render(screen)
+    player.move()
+    player.render(screen)
         # apple2.render(screen)
         # apple3.render(screen)
         # apple4.render(screen)
@@ -94,8 +134,8 @@ while running:
         # strawberry1.render(screen)
         # strawberry2.render(screen)
         # strawberry3.render(screen)
-        pygame.display.flip()
-        clock.tick(60)
+    pygame.display.flip()
+    clock.tick(60)
         
 
         
