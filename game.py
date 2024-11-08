@@ -82,21 +82,21 @@ while running:
        
         # Circle 6 
         color = (169,169,169)
-        postion = (50, 50)
+        postion = (100, 250)
         pygame.draw.circle(screen, color, postion, 55)
        
         #Circle 7
         color = (169,169,169)
-        postion = (50, 50)
+        postion = (400, 250)
         pygame.draw.circle(screen, color, postion, 55)
        
         #Circle 8
         color = (169,169,169)
-        postion = (75, 75)
+        postion = (250, 100)
         pygame.draw.circle(screen, color, postion, 55)
         #Circle 9
         color = (169,169,169)
-        postion = (50, 50)
+        postion = (250, 400)
         pygame.draw.circle(screen, color, postion, 55)
         pygame.display.flip()
         
