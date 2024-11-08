@@ -19,6 +19,6 @@ while running:
         #Circle
         color = (255, 0, 255)
         positon = (250,250)
-        pygame.draw.cirlce(screen, color, postion, 75)
+        pygame.draw.circle(screen, color, positon, 75)
         # Update
         pygame.display.flip()
