@@ -17,7 +17,17 @@ class GameObject(pygame.sprite.Sprite):
         screen.blit(self.surf, (self.x, self.y))
         # Challenge 1 
         # screen.fill((63,63,63))
-apple = GameObject(120, 300, 'apple.png') 
+
+apple = GameObject(100, 400, 'apple.png') 
+apple2 = GameObject(100, 100, 'apple.png') 
+apple3 = GameObject(250, 250, 'apple.png') 
+apple4 = GameObject(400, 100, 'apple.png') 
+apple5 = GameObject(400, 400, 'apple.png') 
+
+strawberry = GameObject(100, 250, 'strawberry.png')
+strawberry1 = GameObject(400,250, 'strawberry.png')
+strawberry2 = GameObject(250,100, 'strawberry.png')
+strawberry3 = GameObject(250,400, 'strawberry.png')
 
 # game loop 
 running = True 
@@ -29,7 +39,16 @@ while running:
                 
         # Clear the screen 
         screen.fill((255,255,255))
-        apple.render(screen) # ADD!
+        # ADD!
+        apple.render(screen)
+        apple2.render(screen)
+        apple3.render(screen)
+        apple4.render(screen)
+        apple5.render(screen)
+        strawberry.render(screen)
+        strawberry1.render(screen)
+        strawberry2.render(screen)
+        strawberry3.render(screen)
         pygame.display.flip()
         
 
