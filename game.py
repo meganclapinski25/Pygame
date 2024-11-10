@@ -38,7 +38,7 @@ class Apple(GameObject):
 
  # add a new method
  def reset(self):
-   self.x = randint(50, 400)
+   self.x = choice(lanes)
    self.y = -64
 
 class Strawberry(GameObject):
@@ -53,35 +53,50 @@ class Strawberry(GameObject):
         if self.y > 500: 
             self.reset()
     def reset(self):
-        self.x = randint(50, 400)
-        self.y = -64
+        self.x = -64
+        self.y = choice(lanes)
 
 class Player(GameObject):
   def __init__(self):
     super(Player, self).__init__(0, 0, 'player.png')
     self.dx = 0
     self.dy = 0
+    self.pos_x = 1 # new attribute
+    self.pos_y = 1 # new attribute
     self.reset()
 
   def left(self):
-    self.dx -= 100
+	  if self.pos_x > 0:
+		  self.pos_x -= 1
+		  self.update_dx_dy()
 
   def right(self):
-    self.dx += 100
+    if self.pos_x < len(lanes) - 1:
+      self.pos_x += 1
+      self.update_dx_dy()
 
   def up(self):
-    self.dy -= 100
+    if self.pos_y > 0:
+      self.pos_y -= 1
+      self.update_dx_dy()
 
   def down(self):
-    self.dy += 100
+    if self.pos_y < len(lanes) - 1:
+      self.pos_y += 1
+      self.update_dx_dy()
 
   def move(self):
     self.x -= (self.x - self.dx) * 0.25
     self.y -= (self.y - self.dy) * 0.25
 
   def reset(self):
-    self.x = 250 - 32
-    self.y = 250 - 32
+    self.x = lanes[self.pos_x]
+    self.y = lanes[self.pos_y]
+    self.dx = self.x
+    self.dy = self.y
+  def update_dx_dy(self):
+    self.dx = lanes[self.pos_x]
+    self.dy = lanes[self.pos_y]
 # Make a group
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
@@ -151,4 +166,71 @@ while running:
         # #Circle 2 
         # color = (255,0,0)
         # postion = (100, 100)
-        # pygame.draw.circle(screen, color, postion, 55
+        # pygame.draw.circle(screen, color, postion, 55)
+        # pygame.display.flip()
+        # #Circle 3
+        # color = (225,225,0)
+        # postion = (250, 250)
+        # pygame.draw.circle(screen, color, postion, 55)
+        # pygame.display.flip()
+        # #Circle 4
+        # color = (250,141,7)
+        # postion = (400, 100)
+        # pygame.draw.circle(screen, color, postion, 55)
+        # pygame.display.flip()
+        # #Circle 5
+        # color = (0,225,225)
+        # postion = (400, 400)
+        # pygame.draw.circle(screen, color, postion, 55)
+        # pygame.display.flip()
+        
+        #Challenge 2 
+        
+        # Circle 1 
+        # color = (169,169,169)
+        # postion = (100, 400)
+        # pygame.draw.circle(screen, color, postion, 55)
+       
+        # #Circle 2 
+        # color = (169,169,169)
+        # postion = (100, 100)
+        # pygame.draw.circle(screen, color, postion, 55)
+        
+        # #Circle 3
+        # color = (169,169,169)
+        # postion = (250, 250)
+        # pygame.draw.circle(screen, color, postion, 55)
+        
+        # #Circle 4
+        # color = (169,169,169)
+        # postion = (400, 100)
+        # pygame.draw.circle(screen, color, postion, 55)
+        
+        # #Circle 5
+        # color = (169,169,169)
+        # postion = (400, 400)
+        # pygame.draw.circle(screen, color, postion, 55)
+       
+        # # Circle 6 
+        # color = (169,169,169)
+        # postion = (100, 250)
+        # pygame.draw.circle(screen, color, postion, 55)
+       
+        # #Circle 7
+        # color = (169,169,169)
+        # postion = (400, 250)
+        # pygame.draw.circle(screen, color, postion, 55)
+       
+        # #Circle 8
+        # color = (169,169,169)
+        # postion = (250, 100)
+        # pygame.draw.circle(screen, color, postion, 55)
+        # #Circle 9
+        # color = (169,169,169)
+        # postion = (250, 400)
+        # pygame.draw.circle(screen, color, postion, 55)
+        # pygame.display.flip()
+        
+        
+        
+        
