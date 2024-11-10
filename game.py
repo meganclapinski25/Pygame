@@ -1,8 +1,8 @@
 # Import and initialize pygame
 import pygame 
-from random import randint
+from random import randint, choice
 pygame.init()
-
+lanes = [93, 218, 343]
 # Configure the screen
 screen = pygame.display.set_mode([500, 500])
 # Get the clock
@@ -82,10 +82,11 @@ class Player(GameObject):
   def reset(self):
     self.x = 250 - 32
     self.y = 250 - 32
-
-apple = Apple() 
-strawberry = Strawberry()
-player = Player()
+# Make a group
+all_sprites = pygame.sprite.Group()
+all_sprites.add(player)
+all_sprites.add(apple)
+all_sprites.add(strawberry)
 # apple2 = GameObject(100, 100, 'apple.png') 
 # apple3 = GameObject(250, 250, 'apple.png') 
 # apple4 = GameObject(400, 100, 'apple.png') 
@@ -118,14 +119,13 @@ while running:
         # Clear screen
     screen.fill((255, 255, 255))
         # ADD!
-    apple.x += 1.5
-    apple.move()
-    apple.render(screen)
+    for entity in all_sprites:
+      entity.move()
+      entity.render(screen)
         # strawberry.x +=1.5
         # strawberry.move()
         # strawberry.render(screen)
-    player.move()
-    player.render(screen)
+   
         # apple2.render(screen)
         # apple3.render(screen)
         # apple4.render(screen)
@@ -151,71 +151,4 @@ while running:
         # #Circle 2 
         # color = (255,0,0)
         # postion = (100, 100)
-        # pygame.draw.circle(screen, color, postion, 55)
-        # pygame.display.flip()
-        # #Circle 3
-        # color = (225,225,0)
-        # postion = (250, 250)
-        # pygame.draw.circle(screen, color, postion, 55)
-        # pygame.display.flip()
-        # #Circle 4
-        # color = (250,141,7)
-        # postion = (400, 100)
-        # pygame.draw.circle(screen, color, postion, 55)
-        # pygame.display.flip()
-        # #Circle 5
-        # color = (0,225,225)
-        # postion = (400, 400)
-        # pygame.draw.circle(screen, color, postion, 55)
-        # pygame.display.flip()
-        
-        #Challenge 2 
-        
-        # Circle 1 
-        # color = (169,169,169)
-        # postion = (100, 400)
-        # pygame.draw.circle(screen, color, postion, 55)
-       
-        # #Circle 2 
-        # color = (169,169,169)
-        # postion = (100, 100)
-        # pygame.draw.circle(screen, color, postion, 55)
-        
-        # #Circle 3
-        # color = (169,169,169)
-        # postion = (250, 250)
-        # pygame.draw.circle(screen, color, postion, 55)
-        
-        # #Circle 4
-        # color = (169,169,169)
-        # postion = (400, 100)
-        # pygame.draw.circle(screen, color, postion, 55)
-        
-        # #Circle 5
-        # color = (169,169,169)
-        # postion = (400, 400)
-        # pygame.draw.circle(screen, color, postion, 55)
-       
-        # # Circle 6 
-        # color = (169,169,169)
-        # postion = (100, 250)
-        # pygame.draw.circle(screen, color, postion, 55)
-       
-        # #Circle 7
-        # color = (169,169,169)
-        # postion = (400, 250)
-        # pygame.draw.circle(screen, color, postion, 55)
-       
-        # #Circle 8
-        # color = (169,169,169)
-        # postion = (250, 100)
-        # pygame.draw.circle(screen, color, postion, 55)
-        # #Circle 9
-        # color = (169,169,169)
-        # postion = (250, 400)
-        # pygame.draw.circle(screen, color, postion, 55)
-        # pygame.display.flip()
-        
-        
-        
-        
+        # pygame.draw.circle(screen, color, postion, 55
