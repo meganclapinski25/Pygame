@@ -2,6 +2,7 @@
 import pygame 
 from random import randint, choice
 pygame.init()
+
 lanes = [93, 218, 343]
 # Configure the screen
 screen = pygame.display.set_mode([500, 500])
@@ -9,52 +10,60 @@ screen = pygame.display.set_mode([500, 500])
 clock = pygame.time.Clock()
 
 class GameObject(pygame.sprite.Sprite):
-    def __init__(self, x, y, image):
-        super(GameObject, self).__init__()
-        self.surf = pygame.image.load(image)
-        self.x = x
-        self.y = y
+  def __init__(self, x, y, image):
+    super(GameObject, self).__init__()
+    self.surf = pygame.image.load(image)
+    self.x = x
+    self.y = y
+    self.rect = self.surf.get_rect()
 
-    def render(self, screen):
-        screen.blit(self.surf, (self.x, self.y))
-        # Challenge 1 
-        # screen.fill((63,63,63))
+  def render(self, screen):
+    # Update the rectangle position to the object's current position
+    self.rect.x = self.x
+    self.rect.y = self.y
+    # Draw the sprite's surface on the screen at the updated position
+    screen.blit(self.surf, (self.x, self.y))
+    # Challenge 1
+    # screen.fill((63,63,63))
 
-apple = GameObject(100, 400, 'apple.png') 
+
 
 class Apple(GameObject):
- def __init__(self):
-   super(Apple, self).__init__(0, 0, 'apple.png')
-   self.dx = 0
-   self.dy = (randint(0, 200) / 100) + 1
-   self.reset() # call reset here! 
+    def __init__(self):
+        super(Apple, self).__init__(0, 0, 'apple.png')
+        self.dx = (randint(100, 200) / 100) + 1  # Horizontal speed
+        self.dy = 0  # No vertical movement
+        self.reset()
 
- def move(self):
-   self.x += self.dx
-   self.y += self.dy
-   # Check the y position of the apple
-   if self.y > 500: 
-     self.reset()
+    def move(self):
+      self.x += self.dx  
+      if self.x > 500 or self.x < -64:  
+        self.reset()
 
- # add a new method
- def reset(self):
-   self.x = choice(lanes)
-   self.y = -64
+    def reset(self):
+      self.y = -64  
+      self.x = choice(lanes)  
+      self.dx = (randint(100, 200) / 100) * choice([1, -1])
+
 
 class Strawberry(GameObject):
     def __init__(self):
-        super(Strawberry, self).__init__(0,0, 'strawberry.png')
-        self.dx = 0
-        self.dy = (randint(0, 200) / 100) + 1
-        self.reset() # call reset here!
+      super(Strawberry, self).__init__(0, 0, 'strawberry.png')
+      self.dy = (randint(100, 200) / 100) + 1  
+      self.dx = 0  
+      self.reset()
+    
     def move(self):
-        self.x += self.dx
-        self.y += self.dy
-        if self.y > 500: 
-            self.reset()
+      self.y += self.dy  
+      if self.y > 500 or self.y < -64:  
+        self.reset()
+    
     def reset(self):
         self.x = -64
         self.y = choice(lanes)
+        # Increase the speed gradually
+        self.dy = (randint(100, 200) / 100) + 1
+
 
 class Player(GameObject):
   def __init__(self):
@@ -97,11 +106,23 @@ class Player(GameObject):
   def update_dx_dy(self):
     self.dx = lanes[self.pos_x]
     self.dy = lanes[self.pos_y]
+
+
+
+#initalize
+player = Player()
+strawberry = Strawberry()
+apple = Apple()
 # Make a group
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 all_sprites.add(apple)
 all_sprites.add(strawberry)
+# make a fruits Group
+fruit_sprites = pygame.sprite.Group()
+fruit_sprites.add(apple)
+fruit_sprites.add(strawberry)
+
 # apple2 = GameObject(100, 100, 'apple.png') 
 # apple3 = GameObject(250, 250, 'apple.png') 
 # apple4 = GameObject(400, 100, 'apple.png') 
@@ -115,42 +136,41 @@ all_sprites.add(strawberry)
 # game loop 
 running = True 
 while running:
-  # Looks at events
+    # Check for events
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
     elif event.type == pygame.KEYDOWN:
-      if event.key == pygame.K_ESCAPE:
-        running = False
-      elif event.key == pygame.K_LEFT:
-        player.left()
-      elif event.key == pygame.K_RIGHT:
-        player.right()
-      elif event.key == pygame.K_UP:
-        player.up()
-      elif event.key == pygame.K_DOWN:
-        player.down()
-  
-        # Clear screen
-    screen.fill((255, 255, 255))
-        # ADD!
-    for entity in all_sprites:
+        if event.key == pygame.K_ESCAPE:
+          running = False
+        elif event.key == pygame.K_LEFT:
+          player.left()
+        elif event.key == pygame.K_RIGHT:
+          player.right()
+        elif event.key == pygame.K_UP:
+          player.up()
+        elif event.key == pygame.K_DOWN:
+          player.down()
+    
+    # Clear screen before drawing anything new
+  screen.fill((255, 255, 255))  
+    
+    # Move and render all sprites (player, apple, strawberry)
+  for entity in all_sprites:
       entity.move()
       entity.render(screen)
-        # strawberry.x +=1.5
-        # strawberry.move()
-        # strawberry.render(screen)
-   
-        # apple2.render(screen)
-        # apple3.render(screen)
-        # apple4.render(screen)
-        # apple5.render(screen)
-        # strawberry.render(screen)
-        # strawberry1.render(screen)
-        # strawberry2.render(screen)
-        # strawberry3.render(screen)
+    
+    # Check for collisions between the player and fruits
+  fruit = pygame.sprite.spritecollideany(player, fruit_sprites)
+  if fruit:
+    fruit.reset()  # Reset fruit position if collision occurs
+
+    # Update the display
     pygame.display.flip()
+    
+    # Tick the clock to maintain a frame rate of 60 FPS
     clock.tick(60)
+
         
 
         
