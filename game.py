@@ -31,38 +31,41 @@ class GameObject(pygame.sprite.Sprite):
 class Apple(GameObject):
     def __init__(self):
         super(Apple, self).__init__(0, 0, 'apple.png')
-        self.dx = (randint(100, 200) / 100) + 1  # Horizontal speed
-        self.dy = 0  # No vertical movement
+        self.dx = (randint(100,200) / 100) -1 
+        self.dy = 0 
         self.reset()
 
     def move(self):
       self.x += self.dx  
-      if self.x > 500 or self.x < -64:  
+      if self.x > 500: 
         self.reset()
+      
 
     def reset(self):
-      self.y = -64  
-      self.x = choice(lanes)  
-      self.dx = (randint(100, 200) / 100) * choice([1, -1])
+      self.y = choice(lanes)    
+      self.x = -64
+      self.dx = (randint(100,200) / 100) +1 
+      # self.dx = (randint(100, 200) / 100) + 1
 
 
 class Strawberry(GameObject):
     def __init__(self):
       super(Strawberry, self).__init__(0, 0, 'strawberry.png')
-      self.dy = (randint(100, 200) / 100) + 1  
+      self.dy = (randint(100,200) / 100) +1 
       self.dx = 0  
       self.reset()
     
     def move(self):
       self.y += self.dy  
-      if self.y > 500 or self.y < -64:  
+      if self.y > 500:
         self.reset()
+      
     
     def reset(self):
-        self.x = -64
-        self.y = choice(lanes)
-        # Increase the speed gradually
-        self.dy = (randint(100, 200) / 100) + 1
+        self.x = choice(lanes)
+        self.y = -64
+        self.dy = (randint(100,200) / 100) + 1
+        
 
 
 class Player(GameObject):
@@ -134,42 +137,44 @@ fruit_sprites.add(strawberry)
 # strawberry3 = GameObject(250,400, 'strawberry.png')
 
 # game loop 
-running = True 
+# Game loop
+running = True
 while running:
     # Check for events
-  for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-      running = False
-    elif event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_ESCAPE:
-          running = False
-        elif event.key == pygame.K_LEFT:
-          player.left()
-        elif event.key == pygame.K_RIGHT:
-          player.right()
-        elif event.key == pygame.K_UP:
-          player.up()
-        elif event.key == pygame.K_DOWN:
-          player.down()
-    
-    # Clear screen before drawing anything new
-  screen.fill((255, 255, 255))  
-    
-    # Move and render all sprites (player, apple, strawberry)
-  for entity in all_sprites:
-      entity.move()
-      entity.render(screen)
-    
-    # Check for collisions between the player and fruits
-  fruit = pygame.sprite.spritecollideany(player, fruit_sprites)
-  if fruit:
-    fruit.reset()  # Reset fruit position if collision occurs
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+            elif event.key == pygame.K_LEFT:
+                player.left()
+            elif event.key == pygame.K_RIGHT:
+                player.right()
+            elif event.key == pygame.K_UP:
+                player.up()
+            elif event.key == pygame.K_DOWN:
+                player.down()
+
+    # Clear screen
+    screen.fill((255, 255, 255))
+
+    # Move and render all sprites
+    for entity in all_sprites:
+        entity.move()
+        entity.render(screen)
+
+    # Check for collisions
+    fruit = pygame.sprite.spritecollideany(player, fruit_sprites)
+    if fruit:
+        fruit.reset()  
 
     # Update the display
     pygame.display.flip()
-    
+
     # Tick the clock to maintain a frame rate of 60 FPS
     clock.tick(60)
+
 
         
 
