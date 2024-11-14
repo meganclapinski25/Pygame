@@ -19,10 +19,8 @@ class GameObject(pygame.sprite.Sprite):
     self.rect = self.surf.get_rect()
 
   def render(self, screen):
-    # Update the rectangle position to the object's current position
     self.rect.x = self.x
     self.rect.y = self.y
-    # Draw the sprite's surface on the screen at the updated position
     screen.blit(self.surf, (self.x, self.y))
     # Challenge 1
     # screen.fill((63,63,63))
@@ -70,16 +68,18 @@ class Bomb(GameObject):
   def __init__(self):
     super(Bomb, self).__init__(0,0, 'pngegg.png', scale=(58,64))
     self.dy = (randint(100,200)/100) + 1 
-    self.dx = 0
+    self.dx = (randint(100,200)/100) + 1 
     self.reset()
   def move(self):
     self.y+=self.dy
-    if self.y > 500 :
+    
+    if self.y > 500 or self.x > 500 :
       self.reset()
   def reset(self):
     self.x = choice(lanes)
     self.y = -64
-    self.dy = (randint(100,200)/ 100)+ 1        
+    self.dy = (randint(100,200)/ 100)+ 1    
+    self.dx =  (randint(100,200)/ 100)+ 1       
 
 
 class Player(GameObject):
@@ -141,8 +141,7 @@ all_sprites.add(bomb)
 fruit_sprites = pygame.sprite.Group()
 fruit_sprites.add(apple)
 fruit_sprites.add(strawberry)
-bomb_sprites = pygame.sprite.Group()
-bomb_sprites.add(bomb)
+
 
 # apple2 = GameObject(100, 100, 'apple.png') 
 # apple3 = GameObject(250, 250, 'apple.png') 
@@ -186,6 +185,9 @@ while running:
     fruit = pygame.sprite.spritecollideany(player, fruit_sprites)
     if fruit:
         fruit.reset()  
+    # Check collision player and bomb
+    if pygame.sprite.collide_rect(player, bomb):
+      running = False  
 
     # Update the display
     pygame.display.flip()
