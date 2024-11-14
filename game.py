@@ -10,9 +10,10 @@ screen = pygame.display.set_mode([500, 500])
 clock = pygame.time.Clock()
 
 class GameObject(pygame.sprite.Sprite):
-  def __init__(self, x, y, image):
+  def __init__(self, x, y, image, scale = (64,64)):
     super(GameObject, self).__init__()
     self.surf = pygame.image.load(image)
+    self.surf = pygame.transform.scale(self.surf, scale)
     self.x = x
     self.y = y
     self.rect = self.surf.get_rect()
@@ -65,7 +66,20 @@ class Strawberry(GameObject):
         self.x = choice(lanes)
         self.y = -64
         self.dy = (randint(100,200) / 100) + 1
-        
+class Bomb(GameObject):
+  def __init__(self):
+    super(Bomb, self).__init__(0,0, 'pngegg.png', scale=(58,64))
+    self.dy = (randint(100,200)/100) + 1 
+    self.dx = 0
+    self.reset()
+  def move(self):
+    self.y+=self.dy
+    if self.y > 500 :
+      self.reset()
+  def reset(self):
+    self.x = choice(lanes)
+    self.y = -64
+    self.dy = (randint(100,200)/ 100)+ 1        
 
 
 class Player(GameObject):
@@ -116,15 +130,19 @@ class Player(GameObject):
 player = Player()
 strawberry = Strawberry()
 apple = Apple()
+bomb = Bomb()
 # Make a group
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 all_sprites.add(apple)
 all_sprites.add(strawberry)
+all_sprites.add(bomb)
 # make a fruits Group
 fruit_sprites = pygame.sprite.Group()
 fruit_sprites.add(apple)
 fruit_sprites.add(strawberry)
+bomb_sprites = pygame.sprite.Group()
+bomb_sprites.add(bomb)
 
 # apple2 = GameObject(100, 100, 'apple.png') 
 # apple3 = GameObject(250, 250, 'apple.png') 
